@@ -721,6 +721,7 @@ makeDataReport <- function(data, output=NULL, render=TRUE,
                            problems = rep("", nvariables),
                            stringsAsFactors = FALSE,
                            label = rep(NA, nvariables),
+                           unit = rep(NA, nvariables),
                            description = rep(NA, nvariables))
 
       ## List of variables
@@ -831,6 +832,7 @@ makeDataReport <- function(data, output=NULL, render=TRUE,
             allRes$name[allRes$variable == vnam] <- paste("[", printable_name, "]", sep = "")
             ## Pass on the labels for the codebook
             allRes$label[allRes$variable == vnam] <- ifelse(is.null(attr(v, "label")), "", attr(v, "label"))
+            allRes$unit[allRes$variable == vnam] <- ifelse(is.null(attr(v, "unit")), "", attr(v, "unit"))
             allRes$description[allRes$variable == vnam] <- ifelse(is.null(attr(v, "shortDescription")), "", 
                                                                   attr(v, "shortDescription"))
           allRes$vClass[allRes$variable == vnam] <- oClass(v)[1]
@@ -942,6 +944,7 @@ makeDataReport <- function(data, output=NULL, render=TRUE,
             
             ## Drop the variables that are only used for the codebook
             allRes$label <- NULL
+            allRes$unit <- NULL
             allRes$description <- NULL
             
             ##remove skipped variabled (e.g. due to onlyProblematic = TRUE) and
