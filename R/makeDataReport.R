@@ -842,6 +842,10 @@ makeDataReport <- function(data, output=NULL, render=TRUE,
           if ("label" %in% attributes(v)$names)
             writer("*",attr(v, "label"), "*\n", outfile = vListConn)  # Write label
           
+          ## If the variable has unit information then print that below
+          if ("unit" %in% attributes(v)$names)
+            writer("*",attr(v, "unit"), "*\n", outfile = vListConn)  # Write unit
+          
           ## write result of key/empty check
           if (any(preCheckProblems)) {
             writer(paste("* ", preCheckMessages[preCheckProblems], "\n", collapse=" \n ", sep=""),
@@ -969,15 +973,16 @@ makeDataReport <- function(data, output=NULL, render=TRUE,
             
             ##Add names used for printing
             names(allRes) <- c("Variable", "Class", "# unique values", "Missing",
-                           "problems", "Label", "Description")
+                           "problems", "Label", "Description", "Unit")
 
             ## Reorder variables and add stuff to table 
             ## Add stuff to table
             
-            allResCodebook <- allRes[, c("Label", "Variable", "Class", "# unique values", "Missing", "Description")]
+            allResCodebook <- allRes[, c("Label", "Variable", "Unit", "Class", "# unique values", "Missing", "Description")]
             
-            writer(pander::pandoc.table.return(allResCodebook, justify="lllrcl",
-                                               missing="", split.cells=c(12, 8, 5, 8, 8, 35),
+            writer(pander::pandoc.table.return(allResCodebook, justify="llllrcl",
+                                               missing="", 
+                                               split.cells=c(12, 8, 10, 5, 8, 8, 35),
                                                keep.line.breaks=TRUE,
                                                emphasize.strong.cols = 2))
                    #emphasize.verbatim.cols=2 doesn't work: It kills the links and prints
