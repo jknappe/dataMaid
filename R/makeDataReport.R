@@ -976,7 +976,7 @@ makeDataReport <- function(data, output=NULL, render=TRUE,
             
             ##Add names used for printing
             names(allRes) <- c("Variable", "Class", "# unique values", "Missing",
-                           "problems", "Label", "Description", "Unit")
+                           "problems", "Label", "Unit", "Description")
 
             ## Reorder variables and add stuff to table 
             ## Add stuff to table
